@@ -1,21 +1,32 @@
+#!/bin/bash
+
+# SIGTERM-handler
+term_handler() {
+  echo "== Stopping Chia processes =="
+  chia stop all
+  echo "== Chia processes stopped =="
+  exit 143; # 128 + 15 -- SIGTERM
+}
+
+
 if [[ -n "${TZ}" ]]; then
   echo "Setting timezone to ${TZ}"
   ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 
-cd /chia-blockchain
-
-. ./activate
+source /chia-blockchain/venv/bin/activate
 
 chia init
 
-if [[ ${keys} == "generate" ]]; then
+if [[ ${keys} == "none" ]]; then
+  echo "Not changing any keys."
+elif [[ ${keys} == "generate" ]]; then
   echo "to use your own keys pass them as a text file -v /path/to/keyfile:/path/in/container and -e keys=\"/path/in/container\""
   chia keys generate
 elif [[ ${keys} == "copy" ]]; then
   if [[ -z ${ca} ]]; then
     echo "A path to a copy of the farmer peer's ssl/ca required."
-	exit
+	  exit
   else
   chia init -c ${ca}
   fi
@@ -30,6 +41,10 @@ for p in ${plots_dir//:/ }; do
     fi
     chia plots add -d ${p}
 done
+
+if [[ -n "${log_level}" ]]; then
+   chia configure --log-level "${log_level}"
+fi
 
 sed -i 's/localhost/127.0.0.1/g' ~/.chia/mainnet/config/config.yaml
 
@@ -55,4 +70,9 @@ if [[ ${testnet} == "true" ]]; then
   fi
 fi
 
-while true; do sleep 30; done;
+trap 'kill ${!}; term_handler' SIGTERM
+
+while true 
+do 
+  tail -f /dev/null & wait ${!}
+done
