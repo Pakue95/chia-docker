@@ -32,6 +32,11 @@ To start a farmer only node pass
 -e farmer="true"
 ```
 
+To change log level
+```
+-e log_level="ERROR|WARNING|INFO|DEBUG|VERBOSE"
+```
+
 To start a harvester only node pass
 ```
 -e harvester="true" -e farmer_address="addres.of.farmer" -e farmer_port="portnumber" -v /path/to/ssl/ca:/path/in/container -e ca="/path/in/container" -e keys="copy"

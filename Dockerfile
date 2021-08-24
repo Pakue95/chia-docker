@@ -22,6 +22,7 @@ LABEL maintainer="Pakue"
 EXPOSE 8555 8444 8447
 
 ENV keys="generate"
+ENV log_level="INFO"
 ENV harvester="false"
 ENV farmer="false"
 ENV plots_dir="/plots"
