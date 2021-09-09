@@ -5,7 +5,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git build-essential python3
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN python -m venv /chia-blockchain/venv
+RUN python3 -m venv /chia-blockchain/venv
 ENV PATH=/chia-blockchain/venv/bin:$PATH
 
 WORKDIR /chia-blockchain/src
