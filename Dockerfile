@@ -1,6 +1,6 @@
 FROM python:slim AS builder
 
-ARG BRANCH="1.2.4"
+ARG BRANCH="1.2.5"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git build-essential
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
