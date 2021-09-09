@@ -5,7 +5,7 @@ term_handler() {
   echo "== Stopping Chia processes =="
   chia stop all
   echo "== Chia processes stopped =="
-  exit 143; # 128 + 15 -- SIGTERM
+  exit
 }
 
 
