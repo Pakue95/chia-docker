@@ -2,7 +2,7 @@ FROM ubuntu:latest AS builder
 
 ARG BRANCH="1.2.5"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git build-essential python3
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN python -m venv /chia-blockchain/venv
@@ -32,7 +32,7 @@ ENV testnet="false"
 ENV full_node_port="null"
 ENV TZ="UTC"
 
-RUN apt-get update && apt-get install -y tzdata \
+RUN apt-get update && apt-get install -y tzdata python3 \
     && rm -rf /var/lib/apt/lists/*
 ENV PATH=/chia-blockchain/venv/bin:$PATH
 
