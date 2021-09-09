@@ -1,4 +1,4 @@
-FROM python:slim AS builder
+FROM ubuntu:latest AS builder
 
 ARG BRANCH="1.2.5"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
@@ -16,7 +16,7 @@ RUN pip install --extra-index-url https://pypi.chia.net/simple miniupnpc==2.1
 RUN pip install --extra-index-url https://pypi.chia.net/simple .
 
 
-FROM python:slim AS runner
+FROM ubuntu:latest AS runner
 
 LABEL maintainer="Pakue"
 EXPOSE 8555 8444 8447
